@@ -19,7 +19,7 @@ else
 fi
 
 IMAGE_NAME="alexandredelesse/us-mecanic"
-CONTAINER_NAME="us-client-${ENV}"
+CONTAINER_NAME="us-mecanic-${ENV}"
 
 # Définir le port en fonction de l'environnement
 case "$ENV" in
