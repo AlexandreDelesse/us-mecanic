@@ -17,19 +17,19 @@ export default function MecanicLogTable() {
   const request = useGetMecanicLogs();
   const navigate = useNavigate();
 
-  const handleNavigate = (log: IMecanicLog) => navigate(`/analyse/${log.Id}`);
+  const handleNavigate = (log: IMecanicLog) => navigate(`/analyse/${log.LogId}`);
 
   const columns: GridColDef[] = [
-    { field: "Id", headerName: "LogId" },
+    { field: "LogId", headerName: "LogId" },
     { field: "Immatriculation", headerName: "Immat" },
-    { field: "State", headerName: "Statut", minWidth: 120 },
+    { field: "ReportState", headerName: "Statut", minWidth: 120 },
     {
-      field: "DeclaredDate",
+      field: "LogDate",
       headerName: "Date",
       renderCell: (params) => <DateDisplayer value={params.value} />,
     },
     {
-      field: "Constat",
+      field: "Report",
       headerName: "Constat",
       flex: 1,
     },
@@ -56,7 +56,7 @@ export default function MecanicLogTable() {
   return (
     <Paper sx={{ height: "100%" }}>
       <DataGrid
-        getRowId={(row) => row.Id}
+        getRowId={(row) => row.LogId}
         sx={{ border: "none", boxShadow: "none" }}
         rows={request.data}
         columns={columns}

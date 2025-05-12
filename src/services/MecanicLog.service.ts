@@ -13,7 +13,7 @@ const getMecanicLogs = async () => {
 const getMecanicLogsById = async (id: number) => {
   try {
     const mecanicLogs = await getMecanicLogs();
-    return mecanicLogs.find((log: IMecanicLog) => log.Id === id);
+    return mecanicLogs.find((log: IMecanicLog) => log.LogId === id);
   } catch (error) {
     throw error;
   }

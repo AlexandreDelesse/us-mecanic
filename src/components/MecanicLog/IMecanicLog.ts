@@ -1,16 +1,13 @@
 export interface IMecanicLog {
-  Id: number;
-  Constat: string;
-  DeclaredDate: string;
-  LastStateDate: string;
-  State: number;
-  LogId: number;
-  Immatriculation: string | null;
-  Crew: null;
-  LogDate: string;
-  Report: null;
-  ReportState: null;
-  Analyse: null;
   Action: null;
-  NextDeadLine: null;
+  Analyse: null;
+  Crew: null;
+  Immatriculation: string | null;
+  LastStateDate: string;
+  LogDate: string;
+  LogId: number;
+  NextDeadLine: string | null;
+  Report: string;
+  ReportState: string;
+  State: 0;
 }
