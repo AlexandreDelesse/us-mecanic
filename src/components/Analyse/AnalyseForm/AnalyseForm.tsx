@@ -5,7 +5,6 @@ import {
   FormGroup,
   Switch,
   TextField,
-  Typography,
 } from "@mui/material";
 import { useState } from "react";
 import ConcerningSelect from "./Select/ConcerningSelect";
@@ -17,6 +16,7 @@ import type { IAnalyseForm } from "../IAnalyseForm";
 import usePostAnalyze from "../../../hooks/analyse/usePostAnalyze";
 import { useParams } from "react-router";
 import ErrorHandler from "../../Utils/Error/ErrorHandler";
+import SimpleCard from "../../Utils/Cards/SimpleCard";
 
 interface AnalyzeFormProps {
   onCancel?: () => any;
@@ -83,75 +83,75 @@ export default function AnalyseForm(props: AnalyzeFormProps) {
 
   return (
     <>
-      <Box
-        sx={{
-          marginTop: 2,
-          padding: 2,
-          borderRadius: 2,
-          backgroundColor: "whitesmoke",
-        }}
-      >
-        <Typography marginY={1} variant="h6">
-          Analyse
-        </Typography>
-        <FormGroup sx={{ gap: 2 }}>
-          <FormControlLabel
-            control={
-              <Switch
-                checked={formData.ImmobilizeVehicle}
-                onChange={() =>
-                  updateFormData(
-                    "ImmobilizeVehicle",
-                    !formData.ImmobilizeVehicle
-                  )
+      <SimpleCard title="Analyse">
+        <Box>
+          <FormGroup sx={{ gap: 2 }}>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={formData.ImmobilizeVehicle}
+                  onChange={() =>
+                    updateFormData(
+                      "ImmobilizeVehicle",
+                      !formData.ImmobilizeVehicle
+                    )
+                  }
+                />
+              }
+              label="Immobilisation du véhicule nécessaire"
+            />
+            <Box sx={{ display: "flex", gap: 2, width: "100%" }}>
+              <ConcerningSelect
+                value={formData.Concerning.Id}
+                onChange={(id: string) =>
+                  updateFormData("Concerning", { Id: id })
                 }
               />
-            }
-            label="Immobilisation du véhicule nécessaire"
-          />
-          <Box sx={{ display: "flex", gap: 2, width: "100%" }}>
-            <ConcerningSelect
-              value={formData.Concerning.Id}
-              onChange={(id: string) =>
-                updateFormData("Concerning", { Id: id })
-              }
-            />
-            <NatureSelect
-              value={formData.Nature.Id}
-              onChange={(id: string) => updateFormData("Nature", { Id: id })}
-            />
-          </Box>
+              <NatureSelect
+                value={formData.Nature.Id}
+                onChange={(id: string) => updateFormData("Nature", { Id: id })}
+              />
+            </Box>
 
-          <TextField
-            multiline
-            rows={4}
-            label="Analyse"
-            value={formData.Analyze}
-            onChange={(e) => updateFormData("Analyze", e.target.value)}
+            <TextField
+              multiline
+              rows={4}
+              label="Analyse"
+              value={formData.Analyze}
+              onChange={(e) => updateFormData("Analyze", e.target.value)}
+            />
+          </FormGroup>
+        </Box>
+      </SimpleCard>
+
+      <Box>
+        <SimpleCard title="Actions">
+          <ActionForm
+            deleteAction={deleteAction}
+            updateAction={updateAction}
+            addAction={addAction}
+            actions={formData.Actions}
           />
-        </FormGroup>
-      </Box>
-      <ActionForm
-        deleteAction={deleteAction}
-        updateAction={updateAction}
-        addAction={addAction}
-        actions={formData.Actions}
-      />
-      <Box sx={{ display: "flex", gap: 2, alignItems: "center", marginTop: 2 }}>
-        <Button
-          disabled={mutation.isPending}
-          onClick={submitForm}
-          variant="contained"
+        </SimpleCard>
+        <Box
+          sx={{ display: "flex", gap: 2, alignItems: "center", marginTop: 2 }}
         >
-          Sauvegarder
-        </Button>
-        {props.onCancel && (
-          <Button onClick={props.onCancel} variant="outlined" color="error">
-            Annuler
+          <Button
+            disabled={mutation.isPending}
+            onClick={submitForm}
+            variant="contained"
+          >
+            Sauvegarder
           </Button>
-        )}
+          {props.onCancel && (
+            <Button onClick={props.onCancel} variant="outlined" color="error">
+              Annuler
+            </Button>
+          )}
+        </Box>
+
+        {mutation.error && <ErrorHandler error={mutation.error} />}
       </Box>
-      {mutation.error && <ErrorHandler error={mutation.error} />}
     </>
   );
 }

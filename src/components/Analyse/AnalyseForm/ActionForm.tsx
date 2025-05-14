@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
+import { Box, Button, IconButton, TextField } from "@mui/material";
 import type { IActionForm } from "../IActionForm";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -16,18 +16,7 @@ interface ActionFormProps {
 
 export default function ActionForm(props: ActionFormProps) {
   return (
-    <Box
-      sx={{
-        marginTop: 2,
-        padding: 2,
-        borderRadius: 2,
-        backgroundColor: "whitesmoke",
-      }}
-    >
-      <Typography marginY={1} variant="h6">
-        Actions
-      </Typography>
-
+    <Box>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
         {props.actions.map((action) => (
           <Box

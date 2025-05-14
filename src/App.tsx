@@ -13,7 +13,7 @@ function App() {
         <Toolbar>
           <Avatar src={logo} />
           <Button color="inherit" component={Link} to="/">
-            Home
+            Logs
           </Button>
         </Toolbar>
       </AppBar>
