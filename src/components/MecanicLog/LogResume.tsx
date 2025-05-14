@@ -1,8 +1,9 @@
-import { Box } from "@mui/material";
+import { Box, Chip } from "@mui/material";
 import DateDisplayer from "../Utils/DateDisplayer";
 import type { IMecanicLog } from "./IMecanicLog";
 import SimpleCard from "../Utils/Cards/SimpleCard";
 import PropertyDisplay from "../Utils/PropertyDisplay";
+import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 
 interface LogResumeProps {
   log: IMecanicLog;
@@ -11,19 +12,26 @@ export default function LogResume(props: LogResumeProps) {
   const { log } = props;
 
   return (
-    <SimpleCard title="Résumé de la déclaration">
-      <Box sx={{ display: "flex", gap: 3 }}>
-        <Box>
-          <PropertyDisplay title="Véhicule" content={log.Immatriculation} />
+    <SimpleCard
+      title="Résumé de la déclaration"
+      action={
+        <Chip
+          icon={<DirectionsCarIcon />}
+          size="medium"
+          label={log.Immatriculation}
+        />
+      }
+    >
+      <Box sx={{ display: "flex", gap: 2, flexDirection: "column" }}>
+        <Box sx={{display: "flex", flexDirection: "row", gap: 3}}>
           <PropertyDisplay
             title="Date"
             content={<DateDisplayer value={log.LogDate} />}
           />
-        </Box>
-        <Box>
           <PropertyDisplay title="Ambulancier" content={"Coming soon !"} />
-          <PropertyDisplay title="Description" content={log.Report} />
         </Box>
+
+        <PropertyDisplay title="Description" content={log.Report} />
       </Box>
     </SimpleCard>
   );
