@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Link, Route, Routes } from "react-router";
+import { HashRouter, Link, Route, Routes } from "react-router";
 import { AppBar, Avatar, Button, Container, Toolbar } from "@mui/material";
 import Home from "./pages/Home";
 import AnalyseDetail from "./pages/AnalyseDetail";
@@ -8,7 +8,7 @@ import VersionDisplay from "./components/Utils/VersionDisplay";
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <AppBar position="static">
         <Toolbar>
           <Avatar src={logo} />
@@ -24,7 +24,7 @@ function App() {
         </Routes>
         <VersionDisplay />
       </Container>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
