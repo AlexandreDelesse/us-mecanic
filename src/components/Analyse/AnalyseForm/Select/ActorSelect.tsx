@@ -1,26 +1,19 @@
-import { useEffect, useState } from "react";
-
 import AsyncSelect from "./AsyncSelect";
-import useGetConcerning from "../../../../hooks/referencedData/useGetConcerning";
+import useGetActors from "../../../../hooks/referencedData/useGetActors";
 
 interface ActorSelectProps {
-  onChange: (index: number, field: string, value: string) => any;
-  index: number;
+  value: string;
+  onChange: (value: string) => any;
 }
 export default function ActorSelect(props: ActorSelectProps) {
-  const req = useGetConcerning();
-  const [id, setId] = useState("");
-
-  const handleActionChanges = (id: string) => setId(id);
-
-  useEffect(() => props.onChange(props.index, "ActorId", id.toString()), [id]);
+  const req = useGetActors();
 
   return (
     <AsyncSelect
-      value={id}
+      value={props.value}
       label="Acteur"
       req={req}
-      onChange={handleActionChanges}
+      onChange={(id) => props.onChange(id)}
     />
   );
 }

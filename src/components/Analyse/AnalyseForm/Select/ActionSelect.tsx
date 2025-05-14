@@ -1,20 +1,20 @@
-import { useState } from "react";
-
 import AsyncSelect from "./AsyncSelect";
-import useGetConcerning from "../../../../hooks/referencedData/useGetConcerning";
+import useGetAction from "../../../../hooks/referencedData/useGetAction";
 
-export default function ActionSelect() {
-  const req = useGetConcerning()
-  const [actionId, setActionId] = useState("");
-
-  const handleActionChanges = (id: string) => setActionId(id);
+interface ActionSelectProps {
+  value: string;
+  onChange: (value: string) => any;
+  readonly?: boolean;
+}
+export default function ActionSelect(props: ActionSelectProps) {
+  const req = useGetAction();
 
   return (
     <AsyncSelect
-      value={actionId}
+      value={props.value}
       label="Action"
       req={req}
-      onChange={handleActionChanges}
+      onChange={(id) => props.onChange(id.toString())}
     />
   );
 }

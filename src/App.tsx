@@ -4,6 +4,7 @@ import { AppBar, Avatar, Button, Container, Toolbar } from "@mui/material";
 import Home from "./pages/Home";
 import AnalyseDetail from "./pages/AnalyseDetail";
 import logo from "./Assets/Images/logo-us.png";
+import VersionDisplay from "./components/Utils/VersionDisplay";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/analyse/:logId" element={<AnalyseDetail />} />
         </Routes>
+        <VersionDisplay />
       </Container>
     </BrowserRouter>
   );

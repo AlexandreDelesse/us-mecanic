@@ -15,5 +15,7 @@ export interface IAnalyse {
 
 export interface IDisplayValue {
   Id: number;
+  Label?: string;
   Value: string | null;
+  requiresData?: boolean;
 }

@@ -7,7 +7,7 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { queryClient } from "./queryClient.ts";
+import { queryClient } from "./api/queryClient.ts";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

@@ -1,4 +1,4 @@
-import useGetConcerning from "../../../../hooks/referencedData/useGetConcerning";
+import useGetNature from "../../../../hooks/referencedData/useGetNature";
 import AsyncSelect from "./AsyncSelect";
 
 interface NatureSelectProps {
@@ -7,7 +7,7 @@ interface NatureSelectProps {
   readonly?: boolean;
 }
 export default function NatureSelect(props: NatureSelectProps) {
-  const req = useGetConcerning();
+  const req = useGetNature();
 
   const handleIdChanges = (id: string) => {
     props.onChange && props.onChange(id);
@@ -15,7 +15,7 @@ export default function NatureSelect(props: NatureSelectProps) {
 
   return (
     <AsyncSelect
-      readOnly
+      readOnly={props.readonly}
       value={props.value}
       label="Nature"
       req={req}

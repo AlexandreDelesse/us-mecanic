@@ -3,7 +3,7 @@ import { getAnalyseById } from "../../services/Analyse.service";
 
 export default function useGetAnalyseById(id: string) {
   const request = useQuery({
-    queryKey: ["analyse", id],
+    queryKey: ["analyze", id],
     queryFn: () => getAnalyseById(id),
   });
   return request;
