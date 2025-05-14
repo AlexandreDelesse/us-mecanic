@@ -30,6 +30,10 @@ export default function AnalyseDisplay(props: AnalyseDisplayProps) {
           />
           <Box sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
             <PropertyDisplay
+              title="Analysé par"
+              content={analyse.AnalyzeBy || "Erreur AnalyzeBy"}
+            />
+            <PropertyDisplay
               title="Concerne"
               content={analyse.Concerning?.Value || "Erreur Concerning"}
             />

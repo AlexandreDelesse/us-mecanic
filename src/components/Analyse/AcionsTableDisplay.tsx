@@ -23,16 +23,17 @@ export default function AcionsTableDisplay(props: ActionsTableDisplayProps) {
             <TableCell>Action</TableCell>
             <TableCell>Acteur</TableCell>
             <TableCell>Echéance</TableCell>
+            <TableCell>Commentaire</TableCell>
           </TableRow>
         </TableHead>
+        {/* prettier-ignore */}
         <TableBody>
           {props.actions.map((row) => (
             <TableRow>
-              <TableCell>
-                {row.ActionType?.Value || "Erreur Action type"}
-              </TableCell>
+              <TableCell>{row.ActionType?.Value || "Erreur Action type"}</TableCell>
               <TableCell>{row.Actor?.Value || "Erreur Actor"}</TableCell>
-              <TableCell></TableCell>
+              <TableCell>{}</TableCell>
+              <TableCell>{row.comment}</TableCell>
             </TableRow>
           ))}
         </TableBody>

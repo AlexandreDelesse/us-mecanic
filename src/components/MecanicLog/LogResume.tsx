@@ -17,7 +17,7 @@ export default function LogResume(props: LogResumeProps) {
       {DataPresenter("Véhicule", log.Immatriculation)}
       {DataPresenter("Date", <DateDisplayer value={log.LogDate} />)}
       {DataPresenter("Ambulancier", "Not implemented - No Crew Model")}
-      {DataPresenter("Description", log.Constat)}
+      {DataPresenter("Description", log.Report)}
     </Box>
   );
 }
