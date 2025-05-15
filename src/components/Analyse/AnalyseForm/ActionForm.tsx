@@ -12,9 +12,12 @@ interface ActionFormProps {
   addAction: () => void;
   deleteAction: (id: string) => void;
   updateAction: (id: string, field: string, value: any) => void;
+  hasInvalidAction?: boolean;
 }
 
 export default function ActionForm(props: ActionFormProps) {
+  // Pour l'affichage - Permet d'aligner les colonnes 
+  const hasDueDate = props.actions.some(action => action.Constraint.RequiresDate)
   return (
     <Box>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
@@ -26,6 +29,7 @@ export default function ActionForm(props: ActionFormProps) {
               gap: 2,
               alignItems: "center",
               width: "100%",
+              justifyContent: "space-between",
             }}
           >
             <ActionSelect
@@ -46,16 +50,18 @@ export default function ActionForm(props: ActionFormProps) {
               onChange={(el) => props.updateAction(action.Id, "Constraint", el)}
               value={action.Constraint.Id}
             />
-            {action.Constraint.RequiresDate && (
+            {action.Constraint.RequiresDate ? (
               <CustomDatePicker
+              sx={{flex: 1}}
                 onChange={(date) =>
                   props.updateAction(action.Id, "DueDate", date?.toISOString())
                 }
                 value={new Date(action.DueDate)}
               />
-            )}
+            ): <Box sx={{display: hasDueDate ? "block" : "none"}} flex={1} />}
 
             <TextField
+              sx={{ flex: 2 }}
               label="Commentaire"
               size="small"
               value={action.comment}
@@ -79,6 +85,7 @@ export default function ActionForm(props: ActionFormProps) {
         sx={{ marginTop: 2 }}
         startIcon={<AddIcon />}
         onClick={props.addAction}
+        disabled={props.hasInvalidAction}
       >
         Ajouter une action
       </Button>

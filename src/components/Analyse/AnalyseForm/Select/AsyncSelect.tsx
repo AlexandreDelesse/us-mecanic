@@ -19,13 +19,13 @@ interface AsyncSelectProps {
 export default function AsyncSelect(props: AsyncSelectProps) {
   const { req } = props;
 
-  if (req.isLoading) return <Skeleton />;
+  if (req.isLoading) return <Skeleton width={150} height={70} />;
   if (req.isError) return <ErrorHandler error={req.error} />;
 
   if (props.readOnly) return <>{req.data[props.value]?.Value || "Erreur"}</>;
 
   return (
-    <FormControl sx={{ minWidth: 150 }} size="small">
+    <FormControl sx={{ minWidth: 150, flex: 1 }} size="small">
       <InputLabel id="action-select-label">{props.label}</InputLabel>
       <Select
         labelId="action-select-label"

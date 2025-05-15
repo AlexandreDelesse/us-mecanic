@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   FormControlLabel,
@@ -25,6 +26,8 @@ interface AnalyzeFormProps {
 }
 export default function AnalyseForm(props: AnalyzeFormProps) {
   const params = useParams();
+
+  const [hasFormError, setHasFormError] = useState(false);
 
   const logId = params.logId ? parseInt(params.logId) : -1;
 
@@ -53,6 +56,25 @@ export default function AnalyseForm(props: AnalyzeFormProps) {
     DueDate: "",
   };
 
+  const isActionValid = (action: IActionForm) => {
+    if (!action.ActionType.Id) return false;
+    if (!action.Actor.Id) return false;
+    if (!action.Constraint.Id) return false;
+    if (action.Constraint.RequiresDate && !action.DueDate) return false;
+    return true;
+  };
+
+  const isFormValid = (form: IAnalyseForm) => {
+    if (
+      hasInvalidAction ||
+      !form.Concerning.Id ||
+      !form.Nature.Id ||
+      !form.Analyze
+    )
+      return false;
+    else return true;
+  };
+
   const [formData, setFormData] = useState(props.analyze || defaultAnalyse);
 
   const mutation = usePostAnalyze(props.mutationFn);
@@ -78,12 +100,30 @@ export default function AnalyseForm(props: AnalyzeFormProps) {
   };
 
   const submitForm = () => {
+    if (!isFormValid(formData)) return setHasFormError(true);
     mutation.mutate(formData);
   };
 
+  const hasInvalidAction = formData.Actions.some(
+    (action) => !isActionValid(action)
+  );
+
   return (
     <>
-      <SimpleCard title="Analyse">
+      <SimpleCard
+        title="Analyse"
+        action={
+          hasFormError && (
+            <Alert
+              sx={{ paddingY: 0 }}
+              severity="warning"
+              onClose={() => setHasFormError(false)}
+            >
+              Remplissez tous les champs
+            </Alert>
+          )
+        }
+      >
         <Box>
           <FormGroup sx={{ gap: 2 }}>
             <FormControlLabel
@@ -131,6 +171,7 @@ export default function AnalyseForm(props: AnalyzeFormProps) {
             updateAction={updateAction}
             addAction={addAction}
             actions={formData.Actions}
+            hasInvalidAction={hasInvalidAction}
           />
         </SimpleCard>
         <Box
@@ -149,8 +190,16 @@ export default function AnalyseForm(props: AnalyzeFormProps) {
             </Button>
           )}
         </Box>
-
-        {mutation.error && <ErrorHandler error={mutation.error} />}
+        {/* {hasFormError && (
+          <Alert
+            severity="warning"
+            sx={{ marginY: 2 }}
+            onClose={() => setHasFormError(false)}
+          >
+            Remplissez tous les champs
+          </Alert>
+        )} */}
+        {mutation.error && <ErrorHandler  error={mutation.error} />}
       </Box>
     </>
   );

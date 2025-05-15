@@ -1,4 +1,4 @@
-import { Paper } from "@mui/material";
+import { Paper, Typography } from "@mui/material";
 import {
   DataGrid,
   GridActionsCellItem,
@@ -17,7 +17,8 @@ export default function MecanicLogTable() {
   const request = useGetMecanicLogs();
   const navigate = useNavigate();
 
-  const handleNavigate = (log: IMecanicLog) => navigate(`/analyse/${log.LogId}`);
+  const handleNavigate = (log: IMecanicLog) =>
+    navigate(`/analyse/${log.LogId}`);
 
   const columns: GridColDef[] = [
     { field: "LogId", headerName: "LogId" },
@@ -54,15 +55,20 @@ export default function MecanicLogTable() {
   if (request.isError) return <ErrorHandler error={request.error} />;
 
   return (
-    <Paper sx={{ height: "100%" }}>
-      <DataGrid
-        getRowId={(row) => row.LogId}
-        sx={{ border: "none", boxShadow: "none" }}
-        rows={request.data}
-        columns={columns}
-        showToolbar
-        localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
-      />
-    </Paper>
+    <>
+      <Typography sx={{ marginY: 2 }} variant="h5">
+        Liste des logs
+      </Typography>
+      <Paper sx={{ height: "100%" }}>
+        <DataGrid
+          getRowId={(row) => row.LogId}
+          sx={{ border: "none", boxShadow: "none" }}
+          rows={request.data}
+          columns={columns}
+          showToolbar
+          localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
+        />
+      </Paper>
+    </>
   );
 }

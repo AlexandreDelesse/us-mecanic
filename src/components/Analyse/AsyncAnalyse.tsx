@@ -4,6 +4,7 @@ import AsyncComponent from "../Utils/AsyncComponent";
 import type { IAnalyse } from "./IAnalyse";
 import AnalyseDisplay from "./AnalyseDisplay";
 import AnalyseForm from "./AnalyseForm/AnalyseForm";
+import { Skeleton } from "@mui/material";
 
 export default function AsyncAnalyse() {
   const { logId } = useParams();
@@ -15,6 +16,12 @@ export default function AsyncAnalyse() {
       query={request}
       render={(analyse: IAnalyse) => <AnalyseDisplay analyse={analyse} />}
       render404={<AnalyseForm />}
+      renderLoading={
+        <>
+          <Skeleton variant="rectangular" width={"100%"} height={"100%"} />{" "}
+          <Skeleton variant="rectangular" width={"100%"} height={"100%"} />
+        </>
+      }
     />
   );
   // if (analyseReq.isLoading) return <LogoLoader />;

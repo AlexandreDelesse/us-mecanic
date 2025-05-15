@@ -7,10 +7,14 @@ interface SimpleCardProps extends CardProps {
   children: ReactNode;
 }
 export default function SimpleCard(props: SimpleCardProps) {
-  const { ...otherprops } = props;
+  const { action, ...otherprops } = props;
   return (
-    <Card variant="outlined" sx={{borderRadius: 0}} {...otherprops}>
-      <CardHeader title={props.title} action={props.action} />
+    <Card variant="outlined" sx={{ borderRadius: 0 }} {...otherprops}>
+      <CardHeader
+        sx={{ alignItems: "center" }}
+        title={props.title}
+        action={action}
+      />
       {/* <Divider /> */}
       <CardContent>{props.children}</CardContent>
     </Card>

@@ -17,7 +17,7 @@ interface ConstraintSelectProps {
 export default function ConstraintSelect(props: ConstraintSelectProps) {
   const req = useGetConstraints();
 
-  if (req.isLoading) return <Skeleton />;
+  if (req.isLoading) return <Skeleton width={150} height={70} />;
   if (req.isError) return <ErrorHandler error={req.error} />;
 
   return (
@@ -27,7 +27,7 @@ export default function ConstraintSelect(props: ConstraintSelectProps) {
     //   req={req}
     //   onChange={(id) => props.onChange(id.toString())}
     // />
-    <FormControl sx={{ minWidth: 150 }} size="small">
+    <FormControl sx={{ minWidth: 150, flex: 1 }} size="small">
       <InputLabel id="action-select-label">Echéance</InputLabel>
       <Select
         sx={{ flex: 1 }}
