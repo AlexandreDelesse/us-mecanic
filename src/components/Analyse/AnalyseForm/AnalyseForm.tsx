@@ -18,6 +18,7 @@ import usePostAnalyze from "../../../hooks/analyse/usePostAnalyze";
 import { useParams } from "react-router";
 import ErrorHandler from "../../Utils/Error/ErrorHandler";
 import SimpleCard from "../../Utils/Cards/SimpleCard";
+import { useKeycloak } from "@react-keycloak/web";
 
 interface AnalyzeFormProps {
   onCancel?: () => any;
@@ -26,6 +27,7 @@ interface AnalyzeFormProps {
 }
 export default function AnalyseForm(props: AnalyzeFormProps) {
   const params = useParams();
+  const { keycloak } = useKeycloak();
 
   const [hasFormError, setHasFormError] = useState(false);
 
@@ -35,7 +37,7 @@ export default function AnalyseForm(props: AnalyzeFormProps) {
     Immatriculation: "",
     Crew: "",
     Analyze: "",
-    AnalyzeBy: "",
+    AnalyzeBy: keycloak.tokenParsed?.name || "",
     LogId: logId,
     Concerning: {
       Id: "",
@@ -199,7 +201,7 @@ export default function AnalyseForm(props: AnalyzeFormProps) {
             Remplissez tous les champs
           </Alert>
         )} */}
-        {mutation.error && <ErrorHandler  error={mutation.error} />}
+        {mutation.error && <ErrorHandler error={mutation.error} />}
       </Box>
     </>
   );

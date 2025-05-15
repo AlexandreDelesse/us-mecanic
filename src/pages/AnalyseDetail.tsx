@@ -1,12 +1,13 @@
 import { Box } from "@mui/material";
 import AsyncAnalyse from "../components/Analyse/AsyncAnalyse";
 import AsyncMecanicLogResume from "../components/MecanicLog/AsyncMecanicLogResume";
-import BackButton from "../components/Utils/Buttons/BackButton";
+
+import BackToLogsButton from "../components/Utils/Buttons/BackToLogsButton";
 
 export default function AnalyseDetail() {
   return (
     <>
-      <BackButton sx={{ marginY: 2 }} />
+      <BackToLogsButton sx={{ marginY: 2 }} />
       <Box
         sx={{
           display: "grid",
@@ -18,7 +19,7 @@ export default function AnalyseDetail() {
           "& > :nth-of-type(3)": {
             gridColumn: {
               xs: "1 / -1", // toute la ligne, quel que soit le nombre de colonnes
-              sm: "span 2"
+              sm: "span 2",
             },
           },
         }}

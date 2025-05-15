@@ -1,10 +1,11 @@
 import "./App.css";
 import { HashRouter, Link, Route, Routes } from "react-router";
-import { AppBar, Avatar, Button, Container, Toolbar } from "@mui/material";
+import { AppBar, Avatar, Box, Button, Container, Toolbar } from "@mui/material";
 import Home from "./pages/Home";
 import AnalyseDetail from "./pages/AnalyseDetail";
 import logo from "./Assets/Images/logo-us.png";
 import VersionDisplay from "./components/Utils/VersionDisplay";
+import UserAvatar from "./components/User/UserAvatar";
 
 function App() {
   return (
@@ -15,6 +16,10 @@ function App() {
           <Button color="inherit" component={Link} to="/">
             Logs
           </Button>
+
+          <Box flexGrow={1} />
+          
+          <UserAvatar />
         </Toolbar>
       </AppBar>
       <Container sx={{ mt: 4 }}>

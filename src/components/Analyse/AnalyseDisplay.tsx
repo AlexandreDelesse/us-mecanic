@@ -35,7 +35,7 @@ export default function AnalyseDisplay(props: AnalyseDisplayProps) {
   return (
     <>
       <SimpleCard
-        title="Analyze"
+        title="Analyse"
         action={
           <Button
             onClick={toggleIsEditing}

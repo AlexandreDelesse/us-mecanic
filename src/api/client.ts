@@ -1,4 +1,5 @@
 import axios from "axios";
+import keycloak from "../Keycloak/Keycloak";
 
 const PORT = import.meta.env.VITE_API_PORT || "8090";
 const BASE_URL = `https://intranet.urgencesante.fr:${PORT}`;
@@ -6,6 +7,18 @@ const BASE_URL = `https://intranet.urgencesante.fr:${PORT}`;
 const client = axios.create({
   baseURL: BASE_URL,
   timeout: 10000,
+});
+
+// Intercepteur : ajoute le token à chaque requête
+client.interceptors.request.use(async (config) => {
+  if (!keycloak.authenticated) {
+    await keycloak.login(); // si besoin
+  }
+
+  await keycloak.updateToken(60); // refresh si bientôt expiré
+
+  config.headers.Authorization = `Bearer ${keycloak.token}`;
+  return config;
 });
 
 export default client;
