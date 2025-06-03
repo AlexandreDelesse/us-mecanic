@@ -1,16 +1,11 @@
-import {
-  Box,
-  Button,
-  Checkbox,
-  FormControlLabel,
-} from "@mui/material";
+import { Box, Button, Checkbox, FormControlLabel } from "@mui/material";
 import type { IAnalyse } from "./IAnalyse";
 import PropertyDisplay from "../Utils/PropertyDisplay";
 import AcionsTableDisplay from "./AcionsTableDisplay";
 import EditIcon from "@mui/icons-material/Edit";
 import { useState } from "react";
 import AnalyseForm from "./AnalyseForm/AnalyseForm";
-import { analyzeToForm, putAnalyse } from "../../services/Analyse.service";
+import { putAnalyse } from "../../services/Analyse.service";
 import SimpleCard from "../Utils/Cards/SimpleCard";
 
 interface AnalyseDisplayProps {
@@ -23,14 +18,14 @@ export default function AnalyseDisplay(props: AnalyseDisplayProps) {
 
   const toggleIsEditing = () => setIsEditing((old) => !old);
 
-  if (isEditing)
-    return (
-      <AnalyseForm
-        mutationFn={putAnalyse}
-        analyze={analyzeToForm(analyse)}
-        onCancel={toggleIsEditing}
-      />
-    );
+  // if (isEditing)
+  //   return (
+  //     <AnalyseForm
+  //       mutationFn={putAnalyse}
+  //       analyze={analyzeToForm(analyse)}
+  //       onCancel={toggleIsEditing}
+  //     />
+  //   );
 
   return (
     <>

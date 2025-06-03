@@ -1,7 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import { postAnalyze } from "../../services/Analyse.service";
 import { queryClient } from "../../api/queryClient";
-import type { IAnalyseForm } from "../../components/Analyse/IAnalyseForm";
+import type { IAnalyseForm } from "../../components/Analyse/IAnalyse";
+
 
 export default function usePostAnalyze(
   mutationFn?: (analyse: IAnalyseForm) => Promise<void>

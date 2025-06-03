@@ -13,3 +13,15 @@ export interface IAction {
   CallBack: string | null;
   AnalyzeId: number;
 }
+
+export interface IActionForm {
+  ActionTypeId: string;
+  ActorId: string;
+  comment: string;
+  ConstraintId: string;
+  Id: string;
+  DueDate: string;
+  RequiresDate?: boolean;
+}
+
+export interface IActionCmd {}

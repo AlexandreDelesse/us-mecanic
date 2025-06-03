@@ -1,20 +1,9 @@
 import AsyncSelect from "./AsyncSelect";
 import useGetAction from "../../../../hooks/referencedData/useGetAction";
+import type { SelectProps } from "@mui/material";
 
-interface ActionSelectProps {
-  value: string;
-  onChange: (value: string) => any;
-  readonly?: boolean;
-}
-export default function ActionSelect(props: ActionSelectProps) {
+export default function ActionSelect(props: SelectProps<string>) {
   const req = useGetAction();
 
-  return (
-    <AsyncSelect
-      value={props.value}
-      label="Action"
-      req={req}
-      onChange={(id) => props.onChange(id.toString())}
-    />
-  );
+  return <AsyncSelect selectProps={{ ...props, label: "Action" }} req={req} />;
 }

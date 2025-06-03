@@ -1,5 +1,5 @@
 import { Box, Button, IconButton, TextField } from "@mui/material";
-import type { IActionForm } from "../IActionForm";
+import type { IActionForm } from "../IAction";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ActionSelect from "./Select/ActionSelect";
@@ -12,12 +12,12 @@ interface ActionFormProps {
   addAction: () => void;
   deleteAction: (id: string) => void;
   updateAction: (id: string, field: string, value: any) => void;
-  hasInvalidAction?: boolean;
+  canAddAction?: boolean;
 }
 
 export default function ActionForm(props: ActionFormProps) {
-  // Pour l'affichage - Permet d'aligner les colonnes 
-  const hasDueDate = props.actions.some(action => action.Constraint.RequiresDate)
+  // Pour l'affichage - Permet d'aligner les colonnes
+  const hasDueDate = props.actions.some((action) => action.RequiresDate);
   return (
     <Box>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
@@ -33,32 +33,37 @@ export default function ActionForm(props: ActionFormProps) {
             }}
           >
             <ActionSelect
-              onChange={(id) =>
-                props.updateAction(action.Id, "ActionType", { Id: id })
+              onChange={(e) =>
+                props.updateAction(action.Id, "ActionTypeId", e.target.value)
               }
-              value={action.ActionType.Id}
+              value={action.ActionTypeId.toString()}
             />
 
             <ActorSelect
-              onChange={(id) =>
-                props.updateAction(action.Id, "Actor", { Id: id })
+              onChange={(e) =>
+                props.updateAction(action.Id, "ActorId", e.target.value)
               }
-              value={action.Actor.Id}
+              value={action.ActorId.toString()}
             />
 
             <ConstraintSelect
-              onChange={(el) => props.updateAction(action.Id, "Constraint", el)}
-              value={action.Constraint.Id}
+              onChange={(e) =>
+                props.updateAction(action.Id, "ConstraintId", e.target.value)
+              }
+              value={action.ConstraintId.toString()}
+              label="Contrainte"
             />
-            {action.Constraint.RequiresDate ? (
+            {action.RequiresDate ? (
               <CustomDatePicker
-              sx={{flex: 1}}
+                sx={{ flex: 1 }}
                 onChange={(date) =>
                   props.updateAction(action.Id, "DueDate", date?.toISOString())
                 }
-                value={new Date(action.DueDate)}
+                value={new Date(action.DueDate || "")}
               />
-            ): <Box sx={{display: hasDueDate ? "block" : "none"}} flex={1} />}
+            ) : (
+              <Box sx={{ display: hasDueDate ? "block" : "none" }} flex={1} />
+            )}
 
             <TextField
               sx={{ flex: 2 }}
@@ -85,7 +90,7 @@ export default function ActionForm(props: ActionFormProps) {
         sx={{ marginTop: 2 }}
         startIcon={<AddIcon />}
         onClick={props.addAction}
-        disabled={props.hasInvalidAction}
+        disabled={!props.canAddAction}
       >
         Ajouter une action
       </Button>

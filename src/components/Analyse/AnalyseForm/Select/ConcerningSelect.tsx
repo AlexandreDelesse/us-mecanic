@@ -1,25 +1,11 @@
+import type { SelectProps } from "@mui/material";
 import useGetConcerning from "../../../../hooks/referencedData/useGetConcerning";
 import AsyncSelect from "./AsyncSelect";
 
-interface ConcerningSelectProps {
-  value: string;
-  onChange?: (value: string) => any;
-  readonly?: boolean;
-}
-export default function ConcerningSelect(props: ConcerningSelectProps) {
-  const req = useGetConcerning()
-
-  const handleActionChanges = (id: string) => {
-    props.onChange && props.onChange(id);
-  };
+export default function ConcerningSelect(props: SelectProps<string>) {
+  const req = useGetConcerning();
 
   return (
-    <AsyncSelect
-      readOnly={props.readonly}
-      value={props.value}
-      label="Concerne"
-      req={req}
-      onChange={handleActionChanges}
-    />
+    <AsyncSelect selectProps={{ ...props, label: "Concerne" }} req={req} />
   );
 }

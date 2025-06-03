@@ -18,7 +18,7 @@ function App() {
           </Button>
 
           <Box flexGrow={1} />
-          
+
           <UserAvatar />
         </Toolbar>
       </AppBar>
@@ -26,6 +26,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/analyse/:logId" element={<AnalyseDetail />} />
+          <Route path="/notification-subscriptions" element={<AnalyseDetail />} />
         </Routes>
         <VersionDisplay />
       </Container>

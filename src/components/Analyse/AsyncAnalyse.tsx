@@ -11,17 +11,19 @@ export default function AsyncAnalyse() {
 
   const request = useGetAnalyseById(logId || "-1");
 
+  const loading = (
+    <>
+      <Skeleton variant="rectangular" width={"100%"} height={"100%"} />{" "}
+      <Skeleton variant="rectangular" width={"100%"} height={"100%"} />
+    </>
+  );
+
   return (
     <AsyncComponent
       query={request}
       render={(analyse: IAnalyse) => <AnalyseDisplay analyse={analyse} />}
       render404={<AnalyseForm />}
-      renderLoading={
-        <>
-          <Skeleton variant="rectangular" width={"100%"} height={"100%"} />{" "}
-          <Skeleton variant="rectangular" width={"100%"} height={"100%"} />
-        </>
-      }
+      renderLoading={loading}
     />
   );
   // if (analyseReq.isLoading) return <LogoLoader />;

@@ -1,19 +1,9 @@
 import AsyncSelect from "./AsyncSelect";
 import useGetActors from "../../../../hooks/referencedData/useGetActors";
+import type { SelectProps } from "@mui/material";
 
-interface ActorSelectProps {
-  value: string;
-  onChange: (value: string) => any;
-}
-export default function ActorSelect(props: ActorSelectProps) {
+export default function ActorSelect(props: SelectProps<string>) {
   const req = useGetActors();
 
-  return (
-    <AsyncSelect
-      value={props.value}
-      label="Acteur"
-      req={req}
-      onChange={(id) => props.onChange(id)}
-    />
-  );
+  return <AsyncSelect selectProps={{ ...props, label: "Acteur" }} req={req} />;
 }

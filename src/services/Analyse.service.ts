@@ -1,8 +1,8 @@
 import client from "../api/client";
-import type { IAction } from "../components/Analyse/IAction";
-import type { IActionForm } from "../components/Analyse/IActionForm";
-import type { IAnalyse } from "../components/Analyse/IAnalyse";
-import type { IAnalyseForm } from "../components/Analyse/IAnalyseForm";
+import type { IActionCmd } from "../components/Analyse/IAction";
+import type { IActionForm } from "../components/Analyse/IAction";
+
+import type { AnalyseCmd, IAnalyseForm } from "../components/Analyse/IAnalyse";
 
 const getAnalyseById = async (logId: string) => {
   try {
@@ -29,25 +29,34 @@ const putAnalyse = async (analyze: IAnalyseForm) => {
   }
 };
 
-const analyzeToForm = (analyze: IAnalyse): IAnalyseForm => ({
-  Actions: analyze.Actions.map((action) => actionToForm(action)),
-  Analyze: analyze.Analyze || "",
-  AnalyzeBy: analyze.AnalyzeBy || "",
-  Concerning: { Id: analyze.Concerning.Id.toString() },
-  Crew: analyze.Crew || "",
-  Immatriculation: analyze.Immatriculation || "",
-  ImmobilizeVehicle: analyze.ImmobilizeVehicle || false,
-  LogId: analyze.LogId || -1,
-  Nature: { Id: analyze.Nature.Id.toString() },
-});
-
-const actionToForm = (action: IAction): IActionForm => ({
-  ActionType: { Id: action.ActionType.Id.toString() },
-  Actor: { Id: action.Actor.Id.toString() },
+const actionFormToCmd = (action: IActionForm): IActionCmd => ({
+  ActionTypeId: { Id: action.ActionTypeId.toString() },
+  Actor: { Id: action.ActorId.toString() },
   comment: action.comment || "",
-  Constraint: { Id: action.Constraint.Id.toString() },
+  Constraint: { Id: action.ConstraintId.toString() },
   DueDate: action.DueDate || "",
   Id: action.Id.toString(),
 });
 
-export { getAnalyseById, postAnalyze, analyzeToForm, putAnalyse };
+const analyzeFormToCmd = (
+  analyse: IAnalyseForm,
+  infos: {
+    AnalyzeBy: string;
+    crew: string;
+    immatriculation: string;
+    logId: number;
+  }
+): AnalyseCmd => {
+  return {
+    Analyze: analyse.Analyze,
+    AnalyzeBy: infos.AnalyzeBy,
+    ConcerningId: parseInt(analyse.ConcerningId),
+    Crew: infos.crew,
+    Immatriculation: infos.immatriculation,
+    ImmobilizeVehicle: analyse.ImmobilizeVehicle,
+    LogId: infos.logId,
+    NatureId: parseInt(analyse.NatureId),
+  };
+};
+
+export { getAnalyseById, postAnalyze, putAnalyse };
