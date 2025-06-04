@@ -6,6 +6,7 @@ import AnalyseDetail from "./pages/AnalyseDetail";
 import logo from "./Assets/Images/logo-us.png";
 import VersionDisplay from "./components/Utils/VersionDisplay";
 import UserAvatar from "./components/User/UserAvatar";
+import SubscriptionContainer from "./components/Subscription/SubscriptionContainer";
 
 function App() {
   return (
@@ -15,6 +16,9 @@ function App() {
           <Avatar src={logo} />
           <Button color="inherit" component={Link} to="/">
             Logs
+          </Button>
+          <Button color="inherit" component={Link} to="/notification-subscriptions">
+            Subscriptions
           </Button>
 
           <Box flexGrow={1} />
@@ -26,7 +30,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/analyse/:logId" element={<AnalyseDetail />} />
-          <Route path="/notification-subscriptions" element={<AnalyseDetail />} />
+          <Route path="/notification-subscriptions" element={<SubscriptionContainer />} />
         </Routes>
         <VersionDisplay />
       </Container>
