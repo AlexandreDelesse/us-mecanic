@@ -4,8 +4,8 @@ import PropertyDisplay from "../Utils/PropertyDisplay";
 import AcionsTableDisplay from "./AcionsTableDisplay";
 import EditIcon from "@mui/icons-material/Edit";
 import { useState } from "react";
-import AnalyseForm from "./AnalyseForm/AnalyseForm";
-import { putAnalyse } from "../../services/Analyse.service";
+// import AnalyseForm from "./AnalyseForm/AnalyseForm";
+// import { putAnalyse } from "../../services/Analyse.service";
 import SimpleCard from "../Utils/Cards/SimpleCard";
 
 interface AnalyseDisplayProps {
@@ -14,7 +14,7 @@ interface AnalyseDisplayProps {
 
 export default function AnalyseDisplay(props: AnalyseDisplayProps) {
   const { analyse } = props;
-  const [isEditing, setIsEditing] = useState(false);
+  const [_isEditing, setIsEditing] = useState(false);
 
   const toggleIsEditing = () => setIsEditing((old) => !old);
 

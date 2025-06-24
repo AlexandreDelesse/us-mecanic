@@ -7,6 +7,7 @@ import logo from "./Assets/Images/logo-us.png";
 import VersionDisplay from "./components/Utils/VersionDisplay";
 import UserAvatar from "./components/User/UserAvatar";
 import SubscriptionContainer from "./components/Subscription/SubscriptionContainer";
+import GeolocPage from "./pages/GeolocPage";
 
 function App() {
   return (
@@ -17,7 +18,14 @@ function App() {
           <Button color="inherit" component={Link} to="/">
             Logs
           </Button>
-          <Button color="inherit" component={Link} to="/notification-subscriptions">
+          <Button color="inherit" component={Link} to="/geoloc/GZ804KX/E1F6699F-F208-4D7A-892E-006A4D782842">
+            Geoloc
+          </Button>
+          <Button
+            color="inherit"
+            component={Link}
+            to="/notification-subscriptions"
+          >
             Subscriptions
           </Button>
 
@@ -30,7 +38,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/analyse/:logId" element={<AnalyseDetail />} />
-          <Route path="/notification-subscriptions" element={<SubscriptionContainer />} />
+          <Route
+            path="/notification-subscriptions"
+            element={<SubscriptionContainer />}
+          />
+          <Route path="/geoloc/:immat/:tripId" element={<GeolocPage />} />
         </Routes>
         <VersionDisplay />
       </Container>
