@@ -1,30 +1,39 @@
-import { Box, MenuItem, MenuList, Slider, Typography } from "@mui/material";
-import MapLibre, {
-  Marker,
-  NavigationControl,
-  Popup,
-} from "react-map-gl/maplibre";
-import type { Point, Trip } from "./Geoloc.model";
-import { green, orange } from "@mui/material/colors";
-import { useEffect, useState } from "react";
+import { Box, MenuItem, MenuList, Slider } from "@mui/material";
+import MapLibre, { NavigationControl, Popup } from "react-map-gl/maplibre";
+import type { DrivePoint, StopPoint, Trip } from "./Geoloc.model";
+
+import { useState } from "react";
+import StopPointComponent from "./StopPointComponent";
+import PointComponent from "./PointComponent";
+import DrivePointComponent from "./DrivePointComponent";
+import { blue } from "@mui/material/colors";
 
 interface GeolocMapProps {
+  depart?: StopPoint;
+  arrivee?: StopPoint;
+  minMax: [number, number];
   geoloc: Trip;
-  onClick: (p: Point) => void;
+  onClick: (p: StopPoint) => void;
   onReset: () => void;
-  selectedPoint?: Point;
-  setDepart: (p: Point) => void;
-  setArrive: (p: Point) => void;
+  selectedPoint?: StopPoint;
+  setDepart: (p: StopPoint) => void;
+  setArrive: (p: StopPoint) => void;
 }
 export default function GeolocMap(props: GeolocMapProps) {
-  useEffect(() => console.log(props.selectedPoint), [props.selectedPoint]);
+  const [limit, setLimit] = useState<number[]>(props.minMax);
 
-  const min = new Date(props.geoloc.DrivePoints[0].LocalTime).getTime();
-  const max = new Date(
-    props.geoloc.DrivePoints[props.geoloc.DrivePoints.length - 1].LocalTime
-  ).getTime();
-
-  const [limit, setLimit] = useState<number[]>([min, max]);
+  const isInLimit = (p: StopPoint | DrivePoint) => {
+    const pointTime =
+      "StartDatetime" in p
+        ? new Date(p.StartDatetime).getTime()
+        : new Date(p.LocalTime).getTime();
+    if (
+      new Date(limit[0]).getTime() < pointTime &&
+      new Date(limit[1]).getTime() > pointTime
+    )
+      return true;
+    return false;
+  };
 
   const initialViewState = {
     latitude:
@@ -40,96 +49,43 @@ export default function GeolocMap(props: GeolocMapProps) {
 
   return (
     <Box>
-      <Typography>
-        Limite : {valueLabelFormat(limit[0])} à {valueLabelFormat(limit[1])}
-      </Typography>
       <Slider
         valueLabelDisplay="auto"
         value={limit}
         onChange={(_e, value) => setLimit(value)}
-        min={min}
-        max={max}
+        min={props.minMax[0]}
+        max={props.minMax[1]}
         valueLabelFormat={valueLabelFormat}
+        step={10}
       />
       <MapLibre
         initialViewState={initialViewState}
-        style={{ width: "100%", height: 400 }}
+        style={{ width: "100%", height: 600 }}
         mapStyle="http://localhost:8080/styles/basic-preview/style.json"
       >
         <NavigationControl position="top-right" />
-        {props.geoloc.DrivePoints.filter(
-          (t) =>
-            new Date(t.LocalTime).getTime() >= limit[0] &&
-            new Date(t.LocalTime).getTime() <= limit[1]
-        ).map((p, i) => (
-          <Marker
-            key={i}
-            latitude={p.Latitude}
-            longitude={p.Longitude}
-            onClick={() => props.onClick(p)}
-          >
-            <div
-              style={{
-                width: "5px",
-                height: "5px",
-                backgroundColor: "red",
-                borderRadius: "50%",
-                //   border: "1px solid white",
-                //   boxShadow: "0 0 3px black",
-              }}
-            />
-          </Marker>
+        {props.geoloc.DrivePoints.filter((p) => isInLimit(p)).map((p, i) => (
+          <DrivePointComponent key={i} drivepoint={p} />
         ))}
-        <Marker
-          onClick={() => props.onClick(props.geoloc.Departure)}
-          latitude={props.geoloc.Departure.Latitude}
-          longitude={props.geoloc.Departure.Longitude}
-          color={green[500]}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "12px",
-              height: "12px",
-              color: "white",
-              padding: "4px",
-              backgroundColor: "green",
-              borderRadius: "50%",
-              border: "1px solid white",
-              boxShadow: "0 0 3px black",
-              fontWeight: "600",
-            }}
-          >
-            1
-          </Box>
-        </Marker>
-        <Marker
-          onClick={() => props.onClick(props.geoloc.Arrival)}
-          latitude={props.geoloc.Arrival.Latitude}
-          longitude={props.geoloc.Arrival.Longitude}
-          color={orange[500]}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "12px",
-              height: "12px",
-              color: "white",
-              padding: "4px",
-              backgroundColor: orange[500],
-              borderRadius: "50%",
-              border: "1px solid white",
-              boxShadow: "0 0 3px black",
-              fontWeight: "600",
-            }}
-          >
-            2
-          </Box>
-        </Marker>
+        {props.geoloc.StopPoints.filter((p) => isInLimit(p)).map((p, i) => (
+          <StopPointComponent
+            isArrive={props.arrivee === p}
+            isDepart={props.depart === p}
+            key={i}
+            stopPoint={p}
+            onClick={props.onClick}
+          />
+        ))}
+        <PointComponent
+          color={blue[500]}
+          point={props.geoloc.Departure}
+          label="1"
+        />
+        <PointComponent
+          color={blue[500]}
+          point={props.geoloc.Arrival}
+          label="2"
+        />
         (
         {props.selectedPoint && (
           <Popup
@@ -158,7 +114,6 @@ export default function GeolocMap(props: GeolocMapProps) {
           </Popup>
         )}
         )
-        {/* <Marker latitude={marker.latitude} longitude={marker.longitude} /> */}
       </MapLibre>
     </Box>
   );
