@@ -1,12 +1,21 @@
-import { useQuery } from "@tanstack/react-query";
-import { getGeoloc } from "./Geoloc.api";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getGeoloc, postGeoloc } from "./Geoloc.api";
 import type { AxiosError } from "axios";
 import type { DrivePoint, StopPoint, Trip } from "./Geoloc.model";
+import useNotifSnack from "../../hooks/useNotifSnack";
 
 export default function useGeolocService(immat: string, tripId: string) {
+  const { notifyError, notifyWarning } = useNotifSnack();
   const query = useQuery<Trip, AxiosError>({
     queryKey: ["geoloc"],
     queryFn: () => getGeoloc(immat, tripId),
+  });
+
+  const mutation = useMutation({
+    mutationKey: ["geoloc"],
+    mutationFn: (t: Trip) => postGeoloc(t),
+    onError: (err: AxiosError) => notifyError(err.message),
+    onSuccess: () => notifyWarning("API MOCKED"),
   });
 
   const getMinMax = (
@@ -21,5 +30,6 @@ export default function useGeolocService(immat: string, tripId: string) {
     const max = Math.max(...pointsTimestamps);
     return [min, max];
   };
-  return { ...query, getMinMax };
+
+  return { query, mutation, getMinMax };
 }

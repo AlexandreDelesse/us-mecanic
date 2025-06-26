@@ -16,7 +16,7 @@ export default function AppLayout() {
           <Button
             color="inherit"
             component={Link}
-            to="/geoloc/GZ804KX/E1F6699F-F208-4D7A-892E-006A4D782842"
+            to="/geoloc/FS414ZX/bae74f53-8d18-47c8-bd0b-0b9ead081aad"
           >
             Geoloc
           </Button>

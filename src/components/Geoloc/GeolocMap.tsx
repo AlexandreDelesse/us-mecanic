@@ -7,6 +7,7 @@ import StopPointComponent from "./StopPointComponent";
 import PointComponent from "./PointComponent";
 import DrivePointComponent from "./DrivePointComponent";
 import { blue } from "@mui/material/colors";
+import { time } from "../Utils/DateTime.service";
 
 interface GeolocMapProps {
   depart?: StopPoint;
@@ -24,14 +25,8 @@ export default function GeolocMap(props: GeolocMapProps) {
 
   const isInLimit = (p: StopPoint | DrivePoint) => {
     const pointTime =
-      "StartDatetime" in p
-        ? new Date(p.StartDatetime).getTime()
-        : new Date(p.LocalTime).getTime();
-    if (
-      new Date(limit[0]).getTime() < pointTime &&
-      new Date(limit[1]).getTime() > pointTime
-    )
-      return true;
+      "StartDatetime" in p ? time(p.StartDatetime) : time(p.LocalTime);
+    if (limit[0] < pointTime && limit[1] > pointTime) return true;
     return false;
   };
 
@@ -56,22 +51,23 @@ export default function GeolocMap(props: GeolocMapProps) {
         min={props.minMax[0]}
         max={props.minMax[1]}
         valueLabelFormat={valueLabelFormat}
-        step={10}
+        step={1000}
       />
       <MapLibre
         initialViewState={initialViewState}
         style={{ width: "100%", height: 600 }}
-        mapStyle="http://localhost:8080/styles/basic-preview/style.json"
+        // mapStyle="http://localhost:8080/styles/basic-preview/style.json"
+        mapStyle="https://api.maptiler.com/maps/streets/style.json?key=VLw5L9PNBFsF8dEplzvu"
       >
         <NavigationControl position="top-right" />
-        {props.geoloc.DrivePoints.filter((p) => isInLimit(p)).map((p, i) => (
-          <DrivePointComponent key={i} drivepoint={p} />
+        {props.geoloc.DrivePoints.filter((p) => isInLimit(p)).map((p) => (
+          <DrivePointComponent key={p.LocalTime} drivepoint={p} />
         ))}
-        {props.geoloc.StopPoints.filter((p) => isInLimit(p)).map((p, i) => (
+        {props.geoloc.StopPoints.filter((p) => isInLimit(p)).map((p) => (
           <StopPointComponent
             isArrive={props.arrivee === p}
             isDepart={props.depart === p}
-            key={i}
+            key={p.StartDatetime}
             stopPoint={p}
             onClick={props.onClick}
           />

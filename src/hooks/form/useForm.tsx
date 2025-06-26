@@ -1,12 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function useForm<T>(initialState: T) {
   type FormErrors = Partial<Record<keyof T, string>>;
 
   const [formData, setFormData] = useState<T>(initialState);
   const [formErrors, setFormErrors] = useState<FormErrors>({});
-
-  useEffect(() => console.log("formData : ", formData), [formData]);
 
   const validate = () => {
     let errors: FormErrors = {};
@@ -23,7 +21,6 @@ export default function useForm<T>(initialState: T) {
 
   const submit = () => {
     validate();
-    console.log(formData);
   };
 
   return { formData, updateField, submit, formErrors };
