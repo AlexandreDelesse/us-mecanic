@@ -18,24 +18,20 @@ export const geoClient = axios.create({
 
 // Intercepteur : ajoute le token à chaque requête
 client.interceptors.request.use(async (config) => {
-  if (!keycloak.authenticated) {
-    await keycloak.login(); // si besoin
+  if (keycloak.authenticated) {
+    await keycloak.updateToken(60); // refresh si bientôt expiré
+    config.headers.Authorization = `Bearer ${keycloak.token}`;
   }
 
-  await keycloak.updateToken(60); // refresh si bientôt expiré
-
-  config.headers.Authorization = `Bearer ${keycloak.token}`;
   return config;
 });
 
 geoClient.interceptors.request.use(async (config) => {
-  if (!keycloak.authenticated) {
-    await keycloak.login(); // si besoin
+  if (keycloak.authenticated) {
+    await keycloak.updateToken(60); // refresh si bientôt expiré
+    config.headers.Authorization = `Bearer ${keycloak.token}`;
   }
 
-  await keycloak.updateToken(60); // refresh si bientôt expiré
-
-  config.headers.Authorization = `Bearer ${keycloak.token}`;
   return config;
 });
 

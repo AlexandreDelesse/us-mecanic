@@ -1,10 +1,23 @@
+import { Box } from "@mui/material";
 import { useKeycloak } from "@react-keycloak/web";
 import type { ReactNode } from "react";
 
-export default function RequireAuth({ children }: { children: ReactNode }) {
+interface RequireAuthProps {
+  children: ReactNode;
+}
+
+export default function RequireAuth(props: RequireAuthProps) {
   const { keycloak } = useKeycloak();
+  console.log(keycloak);
 
-  if (!keycloak.authenticated) return keycloak.login();
+  if (!keycloak.authenticated) {
+    keycloak.login();
+    return (
+      <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
+        En attente d'authentification
+      </Box>
+    );
+  }
 
-  return { children };
+  return props.children;
 }

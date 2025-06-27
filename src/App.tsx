@@ -6,13 +6,20 @@ import SubscriptionContainer from "./components/Subscription/SubscriptionContain
 import GeolocPage from "./pages/GeolocPage";
 import AppLayout from "./pages/AppLayout";
 import { Box } from "@mui/material";
+import RequireAuth from "./Keycloak/RequireAuth";
 
 function App() {
   return (
     <HashRouter>
       {/* Routes AVEC AppBar */}
       <Routes>
-        <Route element={<AppLayout />}>
+        <Route
+          element={
+            <RequireAuth>
+              <AppLayout />
+            </RequireAuth>
+          }
+        >
           <Route path="/" element={<Home />} />
           <Route path="/analyse/:logId" element={<AnalyseDetail />} />
           <Route

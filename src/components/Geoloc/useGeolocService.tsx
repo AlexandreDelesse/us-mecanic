@@ -3,9 +3,10 @@ import { getGeoloc, postGeoloc } from "./Geoloc.api";
 import type { AxiosError } from "axios";
 import type { DrivePoint, StopPoint, Trip } from "./Geoloc.model";
 import useNotifSnack from "../../hooks/useNotifSnack";
+import { queryClient } from "../../api/queryClient";
 
 export default function useGeolocService(immat: string, tripId: string) {
-  const { notifyError, notifyWarning } = useNotifSnack();
+  const { notifyError, notifySuccess } = useNotifSnack();
   const query = useQuery<Trip, AxiosError>({
     queryKey: ["geoloc"],
     queryFn: () => getGeoloc(immat, tripId),
@@ -15,7 +16,10 @@ export default function useGeolocService(immat: string, tripId: string) {
     mutationKey: ["geoloc"],
     mutationFn: (t: Trip) => postGeoloc(t),
     onError: (err: AxiosError) => notifyError(err.message),
-    onSuccess: () => notifyWarning("API MOCKED"),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["geoloc"] });
+      notifySuccess("Tout est ok");
+    },
   });
 
   const getMinMax = (

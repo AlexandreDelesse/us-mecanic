@@ -43,7 +43,7 @@ export default function GeolocMap(props: GeolocMapProps) {
   };
 
   return (
-    <Box>
+    <Box sx={{height: "100%", width: "100%"}}>
       <Slider
         valueLabelDisplay="auto"
         value={limit}

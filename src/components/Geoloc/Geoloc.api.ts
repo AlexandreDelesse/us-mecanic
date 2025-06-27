@@ -8,6 +8,5 @@ export const getGeoloc = async (immat: string, tripId: string) => {
 };
 
 export const postGeoloc = async (trip: Trip) => {
-  console.log(trip);
-  return;
+  return (await geoClient.post(`CertifyTrip`, trip)).data;
 };

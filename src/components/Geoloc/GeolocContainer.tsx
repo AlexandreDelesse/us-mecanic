@@ -11,6 +11,7 @@ import { time } from "../Utils/DateTime.service";
 import useNotifSnack from "../../hooks/useNotifSnack";
 
 export default function GeolocContainer() {
+  console.log("from geoloc container");
   const { immat, tripId } = useParams();
   const { notifyError } = useNotifSnack();
 

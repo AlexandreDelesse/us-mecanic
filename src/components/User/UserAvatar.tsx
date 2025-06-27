@@ -109,7 +109,7 @@ export default function UserAvatar() {
     );
 
   return (
-    <Button variant="contained" onClick={() => keycloak.login()}>
+    <Button variant="text" sx={{color: "white"}} onClick={() => keycloak.login()}>
       Login
     </Button>
   );
