@@ -14,13 +14,14 @@ function App() {
       {/* Routes AVEC AppBar */}
       <Routes>
         <Route
+          path="/"
           element={
             <RequireAuth>
               <AppLayout />
             </RequireAuth>
           }
         >
-          <Route path="/" element={<Home />} />
+          <Route index element={<Home />} />
           <Route path="/analyse/:logId" element={<AnalyseDetail />} />
           <Route
             path="/notification-subscriptions"

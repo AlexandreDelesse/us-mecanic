@@ -1,5 +1,4 @@
 import { Link, Outlet } from "react-router";
-import VersionDisplay from "../components/Utils/VersionDisplay";
 import { AppBar, Avatar, Box, Button, Container, Toolbar } from "@mui/material";
 import logo from "../Assets/Images/logo-us.png";
 import UserAvatar from "../components/User/UserAvatar";
@@ -35,7 +34,6 @@ export default function AppLayout() {
       </AppBar>
       <Container sx={{ mt: 4 }}>
         <Outlet />
-        <VersionDisplay />
       </Container>
     </>
   );

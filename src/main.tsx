@@ -8,23 +8,20 @@ import "@fontsource/roboto/700.css";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./api/queryClient.ts";
-import { ReactKeycloakProvider } from "@react-keycloak/web";
-import keycloak from "./Keycloak/Keycloak.ts";
-import LogoLoader from "./components/Utils/LogoLoader.tsx";
 import { SnackbarProvider } from "notistack";
+import VersionDisplay from "./components/Utils/VersionDisplay.tsx";
+import CustomKeycloakProvider from "./Keycloak/CustomKeycloakProvider.tsx";
 
 createRoot(document.getElementById("root")!).render(
   // <StrictMode>
-  <ReactKeycloakProvider
-    initOptions={{ onLoad: "check-sso" }}
-    authClient={keycloak}
-    LoadingComponent={<LogoLoader LoadingText="Authentification" />}
-  >
+  <CustomKeycloakProvider>
     <QueryClientProvider client={queryClient}>
       <SnackbarProvider>
         <App />
+        <VersionDisplay />
       </SnackbarProvider>
     </QueryClientProvider>
-  </ReactKeycloakProvider>
+  </CustomKeycloakProvider>
+
   // </StrictMode>
 );
