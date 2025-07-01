@@ -24,4 +24,5 @@ export interface DrivePoint extends Point {
 export interface Point {
   Latitude: number;
   Longitude: number;
+  Label?: string;
 }

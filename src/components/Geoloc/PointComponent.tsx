@@ -1,6 +1,7 @@
-import { Marker } from "react-map-gl/maplibre";
+import { Marker, Popup } from "react-map-gl/maplibre";
 import type { Point } from "./Geoloc.model";
 import { Box } from "@mui/material";
+import { useState } from "react";
 
 interface PointComponentProps {
   point: Point;
@@ -8,6 +9,8 @@ interface PointComponentProps {
   label?: string;
 }
 export default function PointComponent(props: PointComponentProps) {
+  const [isHover, setIsHover] = useState(false);
+
   return (
     <Marker latitude={props.point.Latitude} longitude={props.point.Longitude}>
       <Box
@@ -25,9 +28,22 @@ export default function PointComponent(props: PointComponentProps) {
           boxShadow: "0 0 3px black",
           fontWeight: "600",
         }}
+        onMouseEnter={() => setIsHover(true)}
+        onMouseLeave={() => setIsHover(false)}
       >
         {props.label || ""}
       </Box>
+      {isHover && (
+        <Popup
+          latitude={props.point.Latitude}
+          longitude={props.point.Longitude}
+          closeButton={false}
+          closeOnClick={false}
+          offset={12}
+        >
+          <Box sx={{ fontSize: 14 }}>{props.point.Label || "N/A"}</Box>
+        </Popup>
+      )}
     </Marker>
   );
 }
