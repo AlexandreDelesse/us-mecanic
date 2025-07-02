@@ -43,19 +43,21 @@ export default function GeolocMap(props: GeolocMapProps) {
   };
 
   return (
-    <Box sx={{height: "100%", width: "100%"}}>
-      <Slider
-        valueLabelDisplay="auto"
-        value={limit}
-        onChange={(_e, value) => setLimit(value)}
-        min={props.minMax[0]}
-        max={props.minMax[1]}
-        valueLabelFormat={valueLabelFormat}
-        step={1000}
-      />
+    <Box display={"flex"} flexDirection={"column"} height={"100%"}>
+      <Box>
+        <Slider
+          valueLabelDisplay="auto"
+          value={limit}
+          onChange={(_e, value) => setLimit(value)}
+          min={props.minMax[0]}
+          max={props.minMax[1]}
+          valueLabelFormat={valueLabelFormat}
+          step={1000}
+        />
+      </Box>
       <MapLibre
         initialViewState={initialViewState}
-        style={{ width: "100%", height: 600 }}
+        style={{ height: "100%" }}
         mapStyle="http://192.168.1.51:8080/styles/basic-preview/style.json"
         // mapStyle="https://api.maptiler.com/maps/streets/style.json?key=VLw5L9PNBFsF8dEplzvu"
       >
@@ -82,7 +84,7 @@ export default function GeolocMap(props: GeolocMapProps) {
           point={props.geoloc.Arrival}
           label="2"
         />
-        (
+
         {props.selectedPoint && (
           <Popup
             onClose={props.onReset}
@@ -109,7 +111,6 @@ export default function GeolocMap(props: GeolocMapProps) {
             </MenuList>
           </Popup>
         )}
-        )
       </MapLibre>
     </Box>
   );

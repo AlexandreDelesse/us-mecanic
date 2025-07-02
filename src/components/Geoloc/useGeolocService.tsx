@@ -35,5 +35,15 @@ export default function useGeolocService(immat: string, tripId: string) {
     return [min, max];
   };
 
+  // const getClusters = (pts: StopPoint[]) => {
+  //   const getDistance = (p1: Point, p2: Point) =>
+  //     Math.sqrt(
+  //       (p2.Latitude - p1.Latitude) ^ (2 + (p2.Longitude - p1.Longitude)) ^ 2
+  //     );
+  //   pts.forEach((p,i) => {
+
+  //   })
+  // };
+
   return { query, mutation, getMinMax };
 }

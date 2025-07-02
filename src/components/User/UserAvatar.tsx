@@ -45,7 +45,7 @@ export default function UserAvatar() {
               sx={{
                 width: 24,
                 height: 24,
-                padding: 1,
+                padding: 2.5,
                 bgcolor: deepOrange[500],
               }}
             >

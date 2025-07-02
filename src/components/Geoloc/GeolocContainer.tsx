@@ -11,7 +11,6 @@ import { time } from "../Utils/DateTime.service";
 import useNotifSnack from "../../hooks/useNotifSnack";
 
 export default function GeolocContainer() {
-  console.log("from geoloc container");
   const { immat, tripId } = useParams();
   const { notifyError } = useNotifSnack();
 
@@ -68,7 +67,7 @@ export default function GeolocContainer() {
   const minMax = getMinMax(query.data.DrivePoints, query.data.StopPoints);
 
   return (
-    <>
+    <Box display={"flex"} flexDirection={"column"} height={"100%"}>
       <GeolocMap
         minMax={minMax}
         depart={depart}
@@ -81,16 +80,6 @@ export default function GeolocContainer() {
         selectedPoint={selectedPoint}
       />
       <Box display={"flex"} gap={2} alignItems={"center"}>
-        <Button
-          sx={{ marginTop: 1 }}
-          onClick={onSend}
-          variant="contained"
-          startIcon={<SendIcon />}
-          disabled={mutation.isPending}
-          loading={mutation.isPending}
-        >
-          Envoyer
-        </Button>
         <Box display={"flex"} gap={2} alignItems={"center"}>
           Départ :{" "}
           {depart && (
@@ -109,7 +98,18 @@ export default function GeolocContainer() {
             </Box>
           )}
         </Box>
+        <Box flex={1} />
+        <Button
+          sx={{ marginTop: 1 }}
+          onClick={onSend}
+          variant="contained"
+          startIcon={<SendIcon />}
+          disabled={mutation.isPending}
+          loading={mutation.isPending}
+        >
+          Certifier
+        </Button>
       </Box>
-    </>
+    </Box>
   );
 }

@@ -21,7 +21,7 @@ export default function PointComponent(props: PointComponentProps) {
           width: "12px",
           height: "12px",
           color: "white",
-          padding: "4px",
+          padding: "10px",
           backgroundColor: props.color,
           borderRadius: "50%",
           border: "1px solid white",

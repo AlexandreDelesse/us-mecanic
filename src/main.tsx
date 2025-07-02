@@ -9,7 +9,6 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./api/queryClient.ts";
 import { SnackbarProvider } from "notistack";
-import VersionDisplay from "./components/Utils/VersionDisplay.tsx";
 import CustomKeycloakProvider from "./Keycloak/CustomKeycloakProvider.tsx";
 
 createRoot(document.getElementById("root")!).render(
@@ -18,7 +17,6 @@ createRoot(document.getElementById("root")!).render(
     <QueryClientProvider client={queryClient}>
       <SnackbarProvider>
         <App />
-        <VersionDisplay />
       </SnackbarProvider>
     </QueryClientProvider>
   </CustomKeycloakProvider>

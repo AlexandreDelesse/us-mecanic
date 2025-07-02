@@ -5,8 +5,8 @@ import UserAvatar from "../components/User/UserAvatar";
 
 export default function AppLayout() {
   return (
-    <>
-      <AppBar position="static">
+    <Box display={"flex"} flexDirection={"column"} gap={2} height={"100%"}>
+      <AppBar position="relative">
         <Toolbar>
           <Avatar src={logo} />
           <Button color="inherit" component={Link} to="/">
@@ -32,9 +32,9 @@ export default function AppLayout() {
           <UserAvatar />
         </Toolbar>
       </AppBar>
-      <Container sx={{ mt: 4 }}>
+      <Container sx={{ flex: 1 }}>
         <Outlet />
       </Container>
-    </>
+    </Box>
   );
 }
