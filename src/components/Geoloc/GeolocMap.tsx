@@ -1,4 +1,4 @@
-import { Box, MenuItem, MenuList, Slider } from "@mui/material";
+import { Box, MenuItem, MenuList } from "@mui/material";
 import MapLibre, { NavigationControl, Popup } from "react-map-gl/maplibre";
 import type { DrivePoint, Point, StopPoint, Trip } from "./Geoloc.model";
 
@@ -8,6 +8,7 @@ import PointComponent from "./PointComponent";
 import DrivePointComponent from "./DrivePointComponent";
 import { blue } from "@mui/material/colors";
 import { time } from "../Utils/DateTime.service";
+import GeolocTimeline from "./GeolocTimeline";
 
 interface GeolocMapProps {
   depart?: StopPoint;
@@ -49,23 +50,16 @@ export default function GeolocMap(props: GeolocMapProps) {
           zoom: 13,
         };
 
-  const valueLabelFormat = (value: number) => {
-    return new Date(value).toLocaleTimeString();
-  };
-
   return (
     <Box display={"flex"} flexDirection={"column"} height={"100%"}>
-      <Box>
-        <Slider
-          valueLabelDisplay="auto"
-          value={limit}
-          onChange={(_e, value) => setLimit(value)}
-          min={props.minMax[0]}
-          max={props.minMax[1]}
-          valueLabelFormat={valueLabelFormat}
-          step={1000}
-        />
-      </Box>
+      <GeolocTimeline
+        value={limit}
+        onChange={setLimit}
+        min={props.minMax[0]}
+        max={props.minMax[1]}
+        pointsOfInterest={props.geoloc.StopPoints}
+      />
+
       <MapLibre
         initialViewState={initialViewState}
         style={{ height: "100%" }}

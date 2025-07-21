@@ -26,3 +26,8 @@ export interface Point {
   Longitude: number;
   Label?: string;
 }
+
+export interface Poi {
+  timestamp: string;
+  label: string;
+}

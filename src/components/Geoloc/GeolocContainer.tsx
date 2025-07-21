@@ -79,6 +79,7 @@ export default function GeolocContainer() {
         onClick={onClick}
         selectedPoint={selectedPoint}
       />
+
       <Box display={"flex"} gap={2} alignItems={"center"}>
         <Box display={"flex"} gap={2} alignItems={"center"}>
           Départ :{" "}
