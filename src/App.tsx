@@ -9,6 +9,7 @@ import RequireAuth from "./Keycloak/RequireAuth";
 import EmbedPage from "./pages/EmbedPage";
 import { Box } from "@mui/material";
 import VersionDisplay from "./components/Utils/VersionDisplay";
+import Page404 from "./pages/Page404";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
                 </EmbedPage>
               }
             />
+            <Route path="*" element={<Page404 />} />
           </Routes>
         </HashRouter>
       </Box>

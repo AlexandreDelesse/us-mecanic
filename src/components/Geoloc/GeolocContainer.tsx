@@ -53,8 +53,8 @@ export default function GeolocContainer() {
       ),
       StopPoints: query.data.StopPoints.filter(
         (p) =>
-          time(p.StartDatetime) > time(depart.StartDatetime) &&
-          time(p.StartDatetime) < time(arrive.StartDatetime)
+          time(p.StartDatetime) >= time(depart.StartDatetime) &&
+          time(p.StartDatetime) <= time(arrive.StartDatetime)
       ),
       Departure: { Latitude: depart.Latitude, Longitude: depart.Longitude },
       Arrival: { Latitude: arrive.Latitude, Longitude: arrive.Longitude },

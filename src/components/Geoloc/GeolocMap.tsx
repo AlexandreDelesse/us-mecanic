@@ -1,6 +1,6 @@
 import { Box, MenuItem, MenuList, Slider } from "@mui/material";
 import MapLibre, { NavigationControl, Popup } from "react-map-gl/maplibre";
-import type { DrivePoint, StopPoint, Trip } from "./Geoloc.model";
+import type { DrivePoint, Point, StopPoint, Trip } from "./Geoloc.model";
 
 import { useState } from "react";
 import StopPointComponent from "./StopPointComponent";
@@ -29,14 +29,25 @@ export default function GeolocMap(props: GeolocMapProps) {
     if (limit[0] < pointTime && limit[1] > pointTime) return true;
     return false;
   };
+  const isPointValid = (p: Point) => !(p.Latitude == 0 || p.Longitude == 0);
 
-  const initialViewState = {
-    latitude:
-      (props.geoloc.Arrival.Latitude + props.geoloc.Departure.Latitude) / 2,
-    longitude:
-      (props.geoloc.Arrival.Longitude + props.geoloc.Departure.Longitude) / 2,
-    zoom: 13,
-  };
+  const initialViewState =
+    isPointValid(props.geoloc.Departure) && isPointValid(props.geoloc.Arrival)
+      ? {
+          latitude:
+            (props.geoloc.Arrival.Latitude + props.geoloc.Departure.Latitude) /
+            2,
+          longitude:
+            (props.geoloc.Arrival.Longitude +
+              props.geoloc.Departure.Longitude) /
+            2,
+          zoom: 13,
+        }
+      : {
+          latitude: props.geoloc.DrivePoints[0].Latitude,
+          longitude: props.geoloc.DrivePoints[0].Longitude,
+          zoom: 13,
+        };
 
   const valueLabelFormat = (value: number) => {
     return new Date(value).toLocaleTimeString();
@@ -74,16 +85,20 @@ export default function GeolocMap(props: GeolocMapProps) {
             onClick={props.onClick}
           />
         ))}
-        <PointComponent
-          color={blue[500]}
-          point={props.geoloc.Departure}
-          label="1"
-        />
-        <PointComponent
-          color={blue[500]}
-          point={props.geoloc.Arrival}
-          label="2"
-        />
+        {isPointValid(props.geoloc.Departure) && (
+          <PointComponent
+            color={blue[500]}
+            point={props.geoloc.Departure}
+            label="1"
+          />
+        )}
+        {isPointValid(props.geoloc.Arrival) && (
+          <PointComponent
+            color={blue[500]}
+            point={props.geoloc.Arrival}
+            label="2"
+          />
+        )}
 
         {props.selectedPoint && (
           <Popup

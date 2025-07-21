@@ -6,16 +6,16 @@ export const getGeoloc = async (immat: string, tripId: string) => {
     await geoClient.get(`CertifyTrip?gTripId=${tripId}&strImmat=${immat}`)
   ).data;
 
-  const tripData: Trip = {
-    Arrival: geolocData.Arrival,
-    Departure: geolocData.Departure,
-    DrivePoints: geolocData.DrivePointsModels,
-    StopPoints: geolocData.StopPointsModel,
-    TripDescription: geolocData.TripDescription,
-    TripId: geolocData.TripId,
-  };
+  // const tripData: Trip = {
+  //   Arrival: geolocData.Arrival,
+  //   Departure: geolocData.Departure,
+  //   DrivePoints: geolocData.DrivePointsModels,
+  //   StopPoints: geolocData.StopPointsModel,
+  //   TripDescription: geolocData.TripDescription,
+  //   TripId: geolocData.TripId,
+  // };
 
-  return tripData;
+  return geolocData;
 };
 
 export const postGeoloc = async (trip: Trip) => {
