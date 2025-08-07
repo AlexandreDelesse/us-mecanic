@@ -15,7 +15,10 @@ export default function useGeolocService(immat: string, tripId: string) {
   const mutation = useMutation({
     mutationKey: ["geoloc"],
     mutationFn: (t: Trip) => postGeoloc(t),
-    onError: (err: AxiosError) => notifyError(err.message),
+    onError: (err: AxiosError) => {
+      console.log(err);
+      notifyError(err.message);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["geoloc"] });
       notifySuccess("Tout est ok");

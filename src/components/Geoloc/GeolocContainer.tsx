@@ -57,8 +57,8 @@ export default function GeolocContainer() {
       //     time(p.StartDatetime) <= time(arrive.StartDatetime)
       // ),
       StopPoints: [depart, arrive],
-      Departure: { Latitude: depart.Latitude, Longitude: depart.Longitude },
-      Arrival: { Latitude: arrive.Latitude, Longitude: arrive.Longitude },
+      Departure: query.data.Departure,
+      Arrival: query.data.Arrival,
       TripDescription: query.data.TripDescription,
       TripId: query.data.TripId,
     };
