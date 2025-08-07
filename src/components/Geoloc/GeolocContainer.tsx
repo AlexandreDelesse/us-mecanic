@@ -51,11 +51,12 @@ export default function GeolocContainer() {
           time(p.LocalTime) > time(depart.StartDatetime) &&
           time(p.LocalTime) < time(arrive.StartDatetime)
       ),
-      StopPoints: query.data.StopPoints.filter(
-        (p) =>
-          time(p.StartDatetime) >= time(depart.StartDatetime) &&
-          time(p.StartDatetime) <= time(arrive.StartDatetime)
-      ),
+      // StopPoints: query.data.StopPoints.filter(
+      //   (p) =>
+      //     time(p.StartDatetime) >= time(depart.StartDatetime) &&
+      //     time(p.StartDatetime) <= time(arrive.StartDatetime)
+      // ),
+      StopPoints: [depart, arrive],
       Departure: { Latitude: depart.Latitude, Longitude: depart.Longitude },
       Arrival: { Latitude: arrive.Latitude, Longitude: arrive.Longitude },
       TripDescription: query.data.TripDescription,

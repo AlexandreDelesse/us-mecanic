@@ -68,7 +68,11 @@ export default function GeolocMap(props: GeolocMapProps) {
       >
         <NavigationControl position="top-right" />
         {props.geoloc.DrivePoints.filter((p) => isInLimit(p)).map((p) => (
-          <DrivePointComponent key={p.LocalTime} drivepoint={p} />
+          <DrivePointComponent
+            onClick={props.onClick}
+            key={p.LocalTime}
+            drivepoint={p}
+          />
         ))}
         {props.geoloc.StopPoints.filter((p) => isInLimit(p)).map((p) => (
           <StopPointComponent

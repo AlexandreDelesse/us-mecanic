@@ -1,9 +1,10 @@
-import { Marker } from "react-map-gl/maplibre";
-import type { DrivePoint } from "./Geoloc.model";
+import { Marker, type MarkerEvent } from "react-map-gl/maplibre";
+import type { DrivePoint, StopPoint } from "./Geoloc.model";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 
 interface DrivePointComponentProps {
   drivepoint: DrivePoint;
+  onClick: (p: StopPoint) => void;
 }
 export default function DrivePointComponent(props: DrivePointComponentProps) {
   const getSpeedGradientColor = (speed: number, min = 0, max = 20): string => {
@@ -21,11 +22,24 @@ export default function DrivePointComponent(props: DrivePointComponentProps) {
     return `rgb(${r},${g},${b})`;
   };
 
+  const handleOnClick = (_e: MarkerEvent<MouseEvent>) => {
+    let p: StopPoint = {
+      Latitude: props.drivepoint.Latitude,
+      DurationInSecond: 0,
+      EndDateTime: props.drivepoint.LocalTime,
+      HasEngineOff: false,
+      Longitude: props.drivepoint.Longitude,
+      StartDatetime: props.drivepoint.LocalTime,
+    };
+    props.onClick(p);
+  };
+
   const color = getSpeedGradientColor(props.drivepoint.Speed);
   return (
     <Marker
       latitude={props.drivepoint.Latitude}
       longitude={props.drivepoint.Longitude}
+      onClick={handleOnClick}
     >
       <ArrowDropUpIcon
         // color={color}
