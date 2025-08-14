@@ -1,8 +1,8 @@
 import { Box, MenuItem, MenuList } from "@mui/material";
-import MapLibre, { NavigationControl, Popup } from "react-map-gl/maplibre";
+import MapLibre, { Popup, type MapRef } from "react-map-gl/maplibre";
 import type { DrivePoint, Point, StopPoint, Trip } from "./Geoloc.model";
 
-import { useState } from "react";
+import { useState, type RefObject } from "react";
 import StopPointComponent from "./StopPointComponent";
 import PointComponent from "./PointComponent";
 import DrivePointComponent from "./DrivePointComponent";
@@ -20,6 +20,7 @@ interface GeolocMapProps {
   selectedPoint?: StopPoint;
   setDepart: (p: StopPoint) => void;
   setArrive: (p: StopPoint) => void;
+  mapRef?: RefObject<MapRef | null>;
 }
 export default function GeolocMap(props: GeolocMapProps) {
   const [limit, setLimit] = useState<number[]>(props.minMax);
@@ -62,11 +63,12 @@ export default function GeolocMap(props: GeolocMapProps) {
 
       <MapLibre
         initialViewState={initialViewState}
+        ref={props.mapRef}
         style={{ height: "100%" }}
-        mapStyle="http://192.168.1.51:8080/styles/basic-preview/style.json"
-        // mapStyle="https://api.maptiler.com/maps/streets/style.json?key=VLw5L9PNBFsF8dEplzvu"
+        // mapStyle="http://192.168.1.51:8080/styles/basic-preview/style.json"
+        mapStyle="https://api.maptiler.com/maps/streets/style.json?key=VLw5L9PNBFsF8dEplzvu"
       >
-        <NavigationControl position="top-right" />
+        {/* <NavigationControl position="top-right" /> */}
         {props.geoloc.DrivePoints.filter((p) => isInLimit(p)).map((p) => (
           <DrivePointComponent
             onClick={props.onClick}

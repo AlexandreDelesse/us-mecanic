@@ -21,7 +21,7 @@ export default function StopPointComponent(props: StopPointComponentProps) {
     ? "success"
     : props.isArrive
     ? "warning"
-    : "secondary";
+    : "default";
 
   return (
     <Marker
