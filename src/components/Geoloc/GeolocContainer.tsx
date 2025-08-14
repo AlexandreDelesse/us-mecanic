@@ -101,7 +101,7 @@ export default function GeolocContainer() {
   const minMax = getMinMax(query.data.DrivePoints, query.data.StopPoints);
 
   return (
-    <Box display={"flex"} flexDirection={"row"} height={"100%"} border={1}>
+    <Box display={"flex"} flexDirection={"row"} height={"100%"}>
       <Box flex={4}>
         <GeolocMap
           mapRef={mapRef}
