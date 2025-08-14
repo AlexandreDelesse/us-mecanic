@@ -65,8 +65,8 @@ export default function GeolocMap(props: GeolocMapProps) {
         initialViewState={initialViewState}
         ref={props.mapRef}
         style={{ height: "100%" }}
-        // mapStyle="http://192.168.1.51:8080/styles/basic-preview/style.json"
-        mapStyle="https://api.maptiler.com/maps/streets/style.json?key=VLw5L9PNBFsF8dEplzvu"
+        mapStyle="http://85.214.12.96:8082/styles/basic-preview/style.json"
+        // mapStyle="https://api.maptiler.com/maps/streets/style.json?key=VLw5L9PNBFsF8dEplzvu"
       >
         {/* <NavigationControl position="top-right" /> */}
         {props.geoloc.DrivePoints.filter((p) => isInLimit(p)).map((p) => (

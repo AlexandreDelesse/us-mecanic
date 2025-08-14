@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import GeolocMap from "./GeolocMap";
 import useGeolocService from "./useGeolocService";
 import type { Point, StopPoint, Trip } from "./Geoloc.model";
-import { Box, Button, Stack } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { useParams } from "react-router";
 import LogoLoader from "../Utils/LogoLoader";
@@ -118,16 +118,11 @@ export default function GeolocContainer() {
       </Box>
 
       <Stack gap={1} direction={"column"} flex={1} padding={2}>
+        <Typography>Départ</Typography>
         <MainPoint
           title={query.data.Departure.Label}
           point={query.data.Departure}
           color={green[200]}
-          onClick={centerOnPoint}
-        />
-        <MainPoint
-          title={query.data.Arrival.Label}
-          point={query.data.Arrival}
-          color={orange[200]}
           onClick={centerOnPoint}
         />
         <SelectedStopPoint
@@ -136,6 +131,15 @@ export default function GeolocContainer() {
           point={depart}
           title="Départ séléctionné"
         />
+
+        <Typography mt={2}>Arrivée</Typography>
+        <MainPoint
+          title={query.data.Arrival.Label}
+          point={query.data.Arrival}
+          color={orange[200]}
+          onClick={centerOnPoint}
+        />
+
         <SelectedStopPoint
           distance={distanceInMeters(arrive, query.data.Arrival)}
           onClick={centerOnPoint}
