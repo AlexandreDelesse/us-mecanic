@@ -7,6 +7,7 @@ interface PointComponentProps {
   point: Point;
   color?: string;
   label?: string;
+  popupLabel?: string;
 }
 export default function PointComponent(props: PointComponentProps) {
   const [isHover, setIsHover] = useState(false);
@@ -41,7 +42,9 @@ export default function PointComponent(props: PointComponentProps) {
           closeOnClick={false}
           offset={12}
         >
-          <Box sx={{ fontSize: 14 }}>{props.point.Label || "N/A"}</Box>
+          <Box sx={{ fontSize: 14 }}>
+            {props.popupLabel || props.point.Label || "N/A"}
+          </Box>
         </Popup>
       )}
     </Marker>

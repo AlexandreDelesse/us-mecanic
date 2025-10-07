@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import GeolocMap from "./GeolocMap";
 import useGeolocService from "./useGeolocService";
 import type { Point, StopPoint, Trip } from "./Geoloc.model";
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Box, Button, Modal, Stack, Typography } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { useParams } from "react-router";
 import LogoLoader from "../Utils/LogoLoader";
@@ -13,6 +13,7 @@ import SelectedStopPoint from "./SelectedStopPoint";
 import type { MapRef } from "react-map-gl/maplibre";
 import MainPoint from "./MainPoint";
 import { green, orange } from "@mui/material/colors";
+import CancelledTransportModalContent from "./CancelledTransportModalContent";
 
 export default function GeolocContainer() {
   const { immat, tripId } = useParams();
@@ -23,6 +24,7 @@ export default function GeolocContainer() {
   const [selectedPoint, setSelectedPoint] = useState<StopPoint>();
   const [depart, setDepart] = useState<StopPoint>();
   const [arrive, setArrive] = useState<StopPoint>();
+  const [openModal, setOpenModal] = useState(false);
   const mapRef = useRef<MapRef>(null);
 
   const onClick = (p: StopPoint) => setSelectedPoint(p);
@@ -35,6 +37,8 @@ export default function GeolocContainer() {
       zoom: 17,
     });
   };
+
+  const toggleModal = () => setOpenModal(!openModal);
 
   const handleSetDepart = (p: StopPoint) => {
     if (arrive && time(arrive.StartDatetime) < time(p.StartDatetime))
@@ -57,20 +61,28 @@ export default function GeolocContainer() {
   if (query.isError) return <ErrorHandler error={query.error} />;
   if (!query.data) return <>No data</>;
 
+  const handleOnCertifClick = () => {
+    if (!depart) return;
+    if (!arrive) toggleModal();
+    else onSend();
+  };
+
   const onSend = () => {
-    if (!depart || !arrive) return;
+    if (!depart) return;
     const trip: Trip = {
-      DrivePoints: query.data.DrivePoints.filter(
-        (p) =>
-          time(p.LocalTime) > time(depart.StartDatetime) &&
-          time(p.LocalTime) < time(arrive.StartDatetime)
-      ),
+      DrivePoints: arrive //Si pas d'arrivé considéré comme une sortie blanche, donc pas de DrivePoints
+        ? query.data.DrivePoints.filter(
+            (p) =>
+              time(p.LocalTime) > time(depart.StartDatetime) &&
+              time(p.LocalTime) < time(arrive.StartDatetime)
+          )
+        : [],
       // StopPoints: query.data.StopPoints.filter(
       //   (p) =>
       //     time(p.StartDatetime) >= time(depart.StartDatetime) &&
       //     time(p.StartDatetime) <= time(arrive.StartDatetime)
       // ),
-      StopPoints: [depart, arrive],
+      StopPoints: arrive ? [depart, arrive] : [depart],
       Departure: query.data.Departure,
       Arrival: query.data.Arrival,
       TripDescription: query.data.TripDescription,
@@ -99,6 +111,9 @@ export default function GeolocContainer() {
   }
 
   const minMax = getMinMax(query.data.DrivePoints, query.data.StopPoints);
+
+  const unsetDepart = () => setDepart(undefined);
+  const unsetArrivee = () => setArrive(undefined);
 
   return (
     <Box display={"flex"} flexDirection={"row"} height={"100%"}>
@@ -130,6 +145,7 @@ export default function GeolocContainer() {
           onClick={centerOnPoint}
           point={depart}
           title="Départ séléctionné"
+          onDelete={unsetDepart}
         />
 
         <Typography mt={2}>Arrivée</Typography>
@@ -145,20 +161,27 @@ export default function GeolocContainer() {
           onClick={centerOnPoint}
           point={arrive}
           title="Arrivée séléctionné"
+          onDelete={unsetArrivee}
         />
 
         <Box flex={1} />
         <Button
           sx={{ marginTop: 1 }}
-          onClick={onSend}
+          onClick={handleOnCertifClick}
           variant="contained"
           startIcon={<SendIcon />}
-          disabled={mutation.isPending}
+          disabled={!depart || mutation.isPending}
           loading={mutation.isPending}
         >
           Certifier
         </Button>
       </Stack>
+      <Modal open={openModal} onClose={toggleModal}>
+        <CancelledTransportModalContent
+          onValidate={onSend}
+          onCancel={toggleModal}
+        />
+      </Modal>
     </Box>
   );
 }

@@ -6,8 +6,8 @@ import { useState, type RefObject } from "react";
 import StopPointComponent from "./StopPointComponent";
 import PointComponent from "./PointComponent";
 import DrivePointComponent from "./DrivePointComponent";
-import { blue } from "@mui/material/colors";
-import { time } from "../Utils/DateTime.service";
+import { blue, green, red } from "@mui/material/colors";
+import { getShortTimeString, time } from "../Utils/DateTime.service";
 import GeolocTimeline from "./GeolocTimeline";
 
 interface GeolocMapProps {
@@ -31,6 +31,21 @@ export default function GeolocMap(props: GeolocMapProps) {
     if (limit[0] < pointTime && limit[1] > pointTime) return true;
     return false;
   };
+
+  const isAfterDepart = (p: StopPoint | DrivePoint) => {
+    const pointTime =
+      "StartDatetime" in p ? time(p.StartDatetime) : time(p.LocalTime);
+    if (!props.depart) return true;
+    else return props.depart && pointTime >= time(props.depart.StartDatetime);
+  };
+
+  const isBeforeArrive = (p: StopPoint | DrivePoint) => {
+    const pointTime =
+      "StartDatetime" in p ? time(p.StartDatetime) : time(p.LocalTime);
+    if (!props.arrivee) return true;
+    else return props.arrivee && pointTime <= time(props.arrivee.StartDatetime);
+  };
+
   const isPointValid = (p: Point) => !(p.Latitude == 0 || p.Longitude == 0);
 
   const initialViewState =
@@ -69,13 +84,17 @@ export default function GeolocMap(props: GeolocMapProps) {
         // mapStyle="https://api.maptiler.com/maps/streets/style.json?key=VLw5L9PNBFsF8dEplzvu"
       >
         {/* <NavigationControl position="top-right" /> */}
-        {props.geoloc.DrivePoints.filter((p) => isInLimit(p)).map((p) => (
-          <DrivePointComponent
-            onClick={props.onClick}
-            key={p.LocalTime}
-            drivepoint={p}
-          />
-        ))}
+        {props.geoloc.DrivePoints.filter(
+          (p) => isAfterDepart(p) && isBeforeArrive(p)
+        )
+          .filter((p) => isInLimit(p))
+          .map((p) => (
+            <DrivePointComponent
+              onClick={props.onClick}
+              key={p.LocalTime}
+              drivepoint={p}
+            />
+          ))}
         {props.geoloc.StopPoints.filter((p) => isInLimit(p)).map((p) => (
           <StopPointComponent
             isArrive={props.arrivee === p}
@@ -85,6 +104,22 @@ export default function GeolocMap(props: GeolocMapProps) {
             onClick={props.onClick}
           />
         ))}
+        {props.depart && (
+          <PointComponent
+            color={green[500]}
+            point={props.depart}
+            label="D"
+            popupLabel={getShortTimeString(props.depart.StartDatetime)}
+          />
+        )}
+        {props.arrivee && (
+          <PointComponent
+            color={red[500]}
+            point={props.arrivee}
+            label="A"
+            popupLabel={getShortTimeString(props.arrivee.StartDatetime)}
+          />
+        )}
         {isPointValid(props.geoloc.Departure) && (
           <PointComponent
             color={blue[500]}
