@@ -28,7 +28,7 @@ export default function GeolocMap(props: GeolocMapProps) {
   const isInLimit = (p: StopPoint | DrivePoint) => {
     const pointTime =
       "StartDatetime" in p ? time(p.StartDatetime) : time(p.LocalTime);
-    if (limit[0] < pointTime && limit[1] > pointTime) return true;
+    if (limit[0] <= pointTime && limit[1] >= pointTime) return true;
     return false;
   };
 
